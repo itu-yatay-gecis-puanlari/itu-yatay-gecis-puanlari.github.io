@@ -10,7 +10,6 @@
         appData = await response.json();
         
         document.getElementById('footerDate').textContent = appData.meta.guncelleme_tarihi;
-        document.getElementById('updateDate').textContent = 'Güncelleme: ' + appData.meta.guncelleme_tarihi;
         
         // YKS yılı seçeneklerini güncelle
         const yilSelect = document.getElementById('yksYil');
@@ -159,9 +158,6 @@
       if (count === 0) {
          document.getElementById('results-container').innerHTML = '<div class="loading">Aramanızla eşleşen program bulunamadı.</div>';
       }
-
-      document.getElementById('resultsInfo').style.display = 'flex';
-      document.getElementById('programCount').textContent = count;
     }
 
     function collectDonemRows(programData, osymTaban) {
@@ -183,17 +179,16 @@
     }
 
     function formatDonemKisa(donem) {
-      // 202610 -> 2025-2026 Güz (akademik yıl formatı)
+      // 202610 -> 2025-2026 (akademik yıl formatı, dönem adı olmadan)
       const yil = parseInt(donem.substring(0, 4));
       const ay = donem.substring(4);
-      const donemAdi = ay === '10' ? 'Güz' : 'Bahar';
       
       if (ay === '10') {
-        // Güz dönemi: bir önceki yıl ile başlar (2026 Güz -> 2025-2026 Güz)
-        return `${yil - 1}-${yil} ${donemAdi}`;
+        // Güz dönemi: bir önceki yıl ile başlar (2026 Güz -> 2025-2026)
+        return `${yil - 1}-${yil}`;
       } else {
-        // Bahar dönemi: aynı akademik yıl (2025 Bahar -> 2024-2025 Bahar)  
-        return `${yil - 1}-${yil} ${donemAdi}`;
+        // Bahar dönemi: aynı akademik yıl (2025 Bahar -> 2024-2025)  
+        return `${yil - 1}-${yil}`;
       }
     }
 
