@@ -82,6 +82,8 @@
               <th class="col-donem">Dönem</th>
               <th class="col-stat">Kontenjan</th>
               <th class="col-stat">Yerleşen</th>
+              <th class="col-stat">Taban Puan</th>
+              <th class="col-stat">Tavan Puan</th>
               <th class="col-gno">Min GNO</th>
               <th class="col-gno">Max GNO</th>
             </tr>
@@ -112,8 +114,8 @@
         if (donemRows.length === 0) {
           // Veri yoksa tek satır göster
           const osymBadge = osymTaban 
-            ? `<span class="osym-badge">ÖSYM ${currentYksYil}: ${osymTaban.toFixed(2)}</span>`
-            : `<span class="osym-badge warning">ÖSYM ${currentYksYil}: Veri Yok</span>`;
+            ? `<span class="osym-badge">${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</span>`
+            : `<span class="osym-badge warning">${currentYksYil} Taban Puanı: Veri Yok</span>`;
           
           html += `
             <tr>
@@ -122,7 +124,7 @@
                 <span class="program-cell-faculty">${programData.fakulte}</span>
                 ${osymBadge}
               </td>
-              <td colspan="5" class="no-data-cell">Görüntülenecek geçmiş dönem verisi bulunamadı</td>
+              <td colspan="7" class="no-data-cell">Görüntülenecek geçmiş dönem verisi bulunamadı</td>
             </tr>
           `;
         } else {
@@ -131,8 +133,8 @@
             if (index === 0) {
               // İlk satırda program bilgisi rowspan ile
               const osymBadge = osymTaban 
-                ? `<span class="osym-badge">ÖSYM ${currentYksYil}: ${osymTaban.toFixed(2)}</span>`
-                : `<span class="osym-badge warning">ÖSYM ${currentYksYil}: Veri Yok</span>`;
+                ? `<span class="osym-badge">${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</span>`
+                : `<span class="osym-badge warning">${currentYksYil} Taban Puanı: Veri Yok</span>`;
               
               html += `
                 <tr>
@@ -198,7 +200,7 @@
         if (kontenjan === 0) {
             return `
               <td class="col-donem">${label}</td>
-              <td colspan="4" class="no-data-cell">Kontenjan Açılmadı</td>
+              <td colspan="6" class="no-data-cell">Kontenjan Açılmadı</td>
             `;
         }
 
@@ -207,7 +209,7 @@
               <td class="col-donem">${label}</td>
               <td class="col-stat">${kontenjan}</td>
               <td class="col-stat">0</td>
-              <td colspan="2" class="no-data-cell">Yerleşen Yok</td>
+              <td colspan="4" class="no-data-cell">Yerleşen Yok</td>
             `;
         }
 
@@ -242,8 +244,8 @@
                 } else {
                     maxGnoDisplay = maxGno.toFixed(2);
                 }
-                minClass = 'gno-success';
-                if (!maxClass) maxClass = 'gno-success';
+                minClass = '';
+                if (!maxClass) maxClass = '';
             }
         } else {
             minGnoDisplay = 'N/A';
@@ -256,6 +258,8 @@
           <td class="col-donem">${label}</td>
           <td class="col-stat">${kontenjan}</td>
           <td class="col-stat">${yerlesen}</td>
+          <td class="col-stat">${taban ? taban.toFixed(4) : '-'}</td>
+          <td class="col-stat">${tavan ? tavan.toFixed(4) : '-'}</td>
           <td class="col-gno ${minClass}">${minGnoDisplay}</td>
           <td class="col-gno ${maxClass}">${maxGnoDisplay}</td>
         `;

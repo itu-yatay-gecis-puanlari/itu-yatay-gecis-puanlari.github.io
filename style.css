@@ -5,16 +5,20 @@
     }
 
     :root {
-      --primary: #1a365d;
-      --primary-light: #2c5282;
-      --secondary: #c53030;
-      --success: #276749;
-      --warning: #c05621;
-      --bg: #f7fafc;
+      --primary: #3CBDB7;
+      --primary-hover: #2d8f8a;
+      --primary-light: #2d8f8a;
+      --secondary: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --bg-color: #f9fafb;
+      --bg: #f9fafb;
       --card-bg: #ffffff;
-      --text: #1a202c;
-      --text-muted: #718096;
-      --border: #e2e8f0;
+      --text-main: #111827;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --border: #e5e7eb;
       --shadow: 0 1px 3px rgba(0,0,0,0.12);
     }
 
@@ -27,17 +31,17 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 90%;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
     }
 
     header {
       text-align: center;
-      padding: 30px 0;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      padding: 20px 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
       color: white;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       border-radius: 12px;
       box-shadow: var(--shadow);
     }
@@ -54,10 +58,10 @@
 
     .input-section {
       background: var(--card-bg);
-      padding: 24px;
+      padding: 16px;
       border-radius: 12px;
       box-shadow: var(--shadow);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .input-row {
@@ -94,7 +98,7 @@
     .input-group select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+      box-shadow: 0 0 0 3px rgba(60, 189, 183, 0.1);
     }
 
     .btn {
@@ -110,7 +114,7 @@
     }
 
     .btn:hover {
-      background: var(--primary-light);
+      background: var(--primary-hover);
     }
 
     .btn:active {
@@ -162,28 +166,28 @@
     .programs-table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 800px;
+      min-width: 700px;
     }
 
     .programs-table th {
       text-align: left;
-      padding: 10px 12px;
-      background: #f8fafc;
+      padding: 8px 10px;
+      background: var(--bg-color);
       color: var(--text-muted);
       font-weight: 600;
-      font-size: 0.85rem;
-      border-bottom: 2px solid var(--border);
+      font-size: 0.8rem;
+      border-bottom: 2px solid var(--border-color);
     }
 
     .programs-table td {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border);
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .programs-table tbody tr:hover {
-      background: #fafbfc;
+      background: var(--bg-color);
     }
 
     .programs-table tr:last-child td {
@@ -191,28 +195,30 @@
     }
 
     .col-program {
-      width: 25%;
-      min-width: 200px;
+      width: 22%;
+      min-width: 180px;
       vertical-align: top;
     }
 
     .col-donem {
-      width: 20%;
-      min-width: 140px;
+      width: 13%;
+      min-width: 100px;
       font-weight: 500;
-      color: var(--primary);
+      color: var(--text-main);
     }
 
     .col-stat {
-      width: 10%;
+      width: 7.5%;
       text-align: center;
       font-weight: 600;
+      font-size: 0.8rem;
     }
 
     .col-gno {
-      width: 12%;
+      width: 9%;
       text-align: center;
       font-weight: 600;
+      font-size: 0.8rem;
     }
 
     .no-data-cell {
@@ -240,7 +246,7 @@
     .osym-badge {
       display: inline-block;
       padding: 3px 6px;
-      background: var(--primary);
+      background: #4b5563;
       color: white;
       border-radius: 3px;
       font-size: 0.7rem;
@@ -313,7 +319,7 @@
       text-align: center;
       padding: 40px;
       color: var(--secondary);
-      background: #fff5f5;
+      background: #fef2f2;
       border-radius: 12px;
     }
 
