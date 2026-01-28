@@ -1,6 +1,7 @@
     let appData = null;
     let currentYksPuan = null;
     let currentYksYil = null;
+    let selectedYariyilFilter = 'all'; // 'all', '3.Yarıyıl', '5.Yarıyıl'
 
     // Sayfa yüklendiğinde verileri çek
     document.addEventListener('DOMContentLoaded', async () => {
@@ -79,7 +80,13 @@
           <thead>
             <tr>
               <th class="col-program">Bölüm</th>
-              <th class="col-donem">Dönem</th>
+              <th class="col-donem">
+                Dönem <select id="yariyilFilter" class="yariyil-filter" onchange="filterByYariyil()">
+                  <option value="all" ${selectedYariyilFilter === 'all' ? 'selected' : ''}>Tümü</option>
+                  <option value="3.Yarıyıl" ${selectedYariyilFilter === '3.Yarıyıl' ? 'selected' : ''}>Sadece 3. Yarıyıl</option>
+                  <option value="5.Yarıyıl" ${selectedYariyilFilter === '5.Yarıyıl' ? 'selected' : ''}>Sadece 5. Yarıyıl</option>
+                </select>
+              </th>
               <th class="col-stat">Kontenjan</th>
               <th class="col-stat">Yerleşen</th>
               <th class="col-stat">Taban Puan</th>
@@ -171,6 +178,11 @@
         if (!donemData) continue;
         
         for (const [yariyil, data] of Object.entries(donemData)) {
+          // Yarıyıl filtresi uygula
+          if (selectedYariyilFilter !== 'all' && yariyil !== selectedYariyilFilter) {
+            continue;
+          }
+          
           const donemLabel = formatDonemKisa(donem) + ' - ' + yariyil;
           const rowHtml = createDataRow(donemLabel, data, osymTaban);
           if (rowHtml) rows.push(rowHtml);
@@ -178,6 +190,14 @@
       }
 
       return rows;
+    }
+
+    function filterByYariyil() {
+      const filterSelect = document.getElementById('yariyilFilter');
+      selectedYariyilFilter = filterSelect.value;
+      if (currentYksPuan) {
+        renderPrograms();
+      }
     }
 
     function formatDonemKisa(donem) {

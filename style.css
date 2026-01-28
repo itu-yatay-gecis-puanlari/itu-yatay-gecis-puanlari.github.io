@@ -177,7 +177,9 @@
       font-weight: 600;
       font-size: 0.8rem;
       border-bottom: 2px solid var(--border-color);
+      vertical-align: top;
     }
+
 
     .programs-table td {
       padding: 6px 10px;
@@ -205,6 +207,28 @@
       min-width: 100px;
       font-weight: 500;
       color: var(--text-main);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .yariyil-filter {
+      margin-left: 6px;
+      padding: 2px 4px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.7rem;
+      background: white;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-block;
+      width: auto;
+      min-width: auto;
+    }
+
+    .yariyil-filter:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(60, 189, 183, 0.1);
     }
 
     .col-stat {
