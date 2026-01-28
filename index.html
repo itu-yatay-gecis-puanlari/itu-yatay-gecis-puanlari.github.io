@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İTÜ Yatay Geçiş GNO Hesaplayıcı</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2c5282;
+      --secondary: #c53030;
+      --success: #276749;
+      --warning: #c05621;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #1a202c;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .input-section {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .input-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+    }
+
+    .btn {
+      padding: 12px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:hover {
+      background: var(--primary-light);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .search-box {
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .results-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .results-info .count {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .program-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .program-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .program-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .program-header {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: background 0.2s;
+    }
+
+    .program-header:hover {
+      background: #f8fafc;
+    }
+
+    .program-card.open .program-header {
+      border-bottom-color: var(--border);
+    }
+
+    .program-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .program-faculty {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .toggle-icon {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: transform 0.3s;
+    }
+
+    .program-card.open .toggle-icon {
+      transform: rotate(90deg);
+    }
+
+    .program-content {
+      display: none;
+      padding: 20px;
+      background: #fafbfc;
+    }
+
+    .program-card.open .program-content {
+      display: block;
+    }
+
+    .osym-info {
+      display: inline-block;
+      padding: 8px 14px;
+      background: var(--primary);
+      color: white;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .donem-section {
+      margin-bottom: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .donem-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .donem-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+
+    .yariyil-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .yariyil-row:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .yariyil-name {
+      font-weight: 600;
+      min-width: 100px;
+      color: var(--text);
+    }
+
+    .stat-item {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .stat-item strong {
+      color: var(--text);
+    }
+
+    .gno-result {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+      border-radius: 6px;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .gno-result.warning {
+      background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+      color: var(--warning);
+    }
+
+    .gno-result.error {
+      background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+      color: var(--secondary);
+    }
+
+    .gno-result.info {
+      background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+      color: var(--primary);
+    }
+
+    .no-data {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .error-message {
+      text-align: center;
+      padding: 40px;
+      color: var(--secondary);
+      background: #fff5f5;
+      border-radius: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--primary);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 12px;
+      }
+
+      header {
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      .input-row {
+        flex-direction: column;
+      }
+
+      .input-group {
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .program-header {
+        padding: 14px 16px;
+      }
+
+      .program-content {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>İTÜ Yatay Geçiş GNO Hesaplayıcı</h1>
+      <p>YKS puanınıza göre gereken GNO'yu hesaplayın</p>
+    </header>
+
+    <div class="input-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="yksPuan">YKS Puanınız</label>
+          <input type="number" id="yksPuan" placeholder="Örn: 450" min="0" max="600" step="0.001">
+        </div>
+        <div class="input-group">
+          <label for="yksYil">YKS Yılı</label>
+          <select id="yksYil">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+        </div>
+        <button class="btn" onclick="hesapla()">Hesapla</button>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Program ara..." oninput="filterPrograms()">
+    </div>
+
+    <div id="resultsInfo" class="results-info" style="display: none;">
+      <span>Gösterilen: <span class="count" id="programCount">0</span> program</span>
+      <span id="updateDate"></span>
+    </div>
+
+    <div id="programList" class="program-list">
+      <div class="loading">Veriler yükleniyor...</div>
+    </div>
+
+    <footer>
+      <p>Veriler İTÜ ve ÖSYM kaynaklarından derlenmiştir.</p>
+      <p>Son güncelleme: <span id="footerDate">-</span></p>
+    </footer>
+  </div>
+
+  <script>
+    let appData = null;
+    let currentYksPuan = null;
+    let currentYksYil = null;
+
+    // Sayfa yüklendiğinde verileri çek
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('app-data.json');
+        if (!response.ok) throw new Error('Veri dosyası yüklenemedi');
+        appData = await response.json();
+        
+        document.getElementById('footerDate').textContent = appData.meta.guncelleme_tarihi;
+        document.getElementById('updateDate').textContent = 'Güncelleme: ' + appData.meta.guncelleme_tarihi;
+        
+        // YKS yılı seçeneklerini güncelle
+        const yilSelect = document.getElementById('yksYil');
+        yilSelect.innerHTML = appData.meta.yks_yillari
+          .map(y => `<option value="${y}">${y}</option>`)
+          .join('');
+        
+        renderInitialMessage();
+      } catch (error) {
+        document.getElementById('programList').innerHTML = 
+          `<div class="error-message">Hata: ${error.message}</div>`;
+      }
+    });
+
+    function renderInitialMessage() {
+      document.getElementById('programList').innerHTML = 
+        `<div class="loading">YKS puanınızı girip "Hesapla" butonuna tıklayın.</div>`;
+    }
+
+    function hesapla() {
+      const yksPuan = parseFloat(document.getElementById('yksPuan').value);
+      const yksYil = parseInt(document.getElementById('yksYil').value);
+
+      if (!yksPuan || yksPuan <= 0) {
+        alert('Lütfen geçerli bir YKS puanı girin.');
+        return;
+      }
+
+      currentYksPuan = yksPuan;
+      currentYksYil = yksYil;
+
+      renderPrograms();
+    }
+
+    function hesaplaGNO(yatayGecisTabanPuani, yksPuan, osymTaban) {
+      if (!osymTaban || osymTaban === 0) return null;
+      
+      // Formül: Puan = (YKS / ÖSYM_Taban) * 0.40 + (GNO / 4 * 100) * 0.60
+      // Tersine: GNO = ((Puan - (YKS / ÖSYM_Taban) * 0.40) / 0.60) * 4 / 100
+      const yksKatkisi = (yksPuan / osymTaban) * 0.40;
+      const gnoKatkisi = yatayGecisTabanPuani - yksKatkisi;
+      const gno = (gnoKatkisi / 0.60) * 4;
+      
+      return gno;
+    }
+
+    function formatGNO(gno) {
+      if (gno === null) return { text: 'Hesaplanamıyor', class: 'info' };
+      
+      if (gno <= 0) {
+        return { text: 'Herhangi bir GNO ile geçiş mümkün', class: 'info' };
+      } else if (gno > 4) {
+        return { text: 'Bu YKS puanıyla geçiş zor (GNO > 4.00 gerekir)', class: 'error' };
+      } else {
+        return { text: gno.toFixed(2), class: '' };
+      }
+    }
+
+    function renderPrograms() {
+      if (!appData || !currentYksPuan) return;
+
+      const programlar = appData.programlar;
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      let html = '';
+      let count = 0;
+
+      for (const [programAdi, programData] of Object.entries(programlar)) {
+        // Arama filtresi
+        if (searchTerm && !programAdi.toLowerCase().includes(searchTerm)) {
+          continue;
+        }
+
+        count++;
+        const osymTaban = programData.osym_taban_puanlari[currentYksYil];
+        
+        html += `
+          <div class="program-card" onclick="toggleCard(this)">
+            <div class="program-header">
+              <div>
+                <div class="program-title">${programAdi}</div>
+                <div class="program-faculty">${programData.fakulte}</div>
+              </div>
+              <span class="toggle-icon">▶</span>
+            </div>
+            <div class="program-content">
+              ${osymTaban 
+                ? `<div class="osym-info">ÖSYM ${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</div>`
+                : `<div class="osym-info" style="background: var(--warning)">ÖSYM ${currentYksYil} verisi bulunamadı</div>`
+              }
+              ${renderDonemler(programData, osymTaban)}
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('programList').innerHTML = html || 
+        '<div class="loading">Aramanızla eşleşen program bulunamadı.</div>';
+      
+      document.getElementById('resultsInfo').style.display = 'flex';
+      document.getElementById('programCount').textContent = count;
+    }
+
+    function renderDonemler(programData, osymTaban) {
+      const donemler = appData.meta.donemler;
+      let html = '';
+
+      for (const donem of donemler) {
+        const donemData = programData.yatay_gecis_istatistikleri[donem];
+        if (!donemData) continue;
+
+        const donemLabel = formatDonem(donem);
+        
+        html += `<div class="donem-section">
+          <div class="donem-title">${donemLabel}</div>
+          ${renderYariyillar(donemData, osymTaban)}
+        </div>`;
+      }
+
+      return html || '<div class="no-data">Bu program için yatay geçiş verisi bulunmuyor.</div>';
+    }
+
+    function formatDonem(donem) {
+      // 202610 -> 2026 Güz, 202510 -> 2025 Güz
+      const yil = donem.substring(0, 4);
+      const ay = donem.substring(4);
+      const donemAdi = ay === '10' ? 'Güz' : 'Bahar';
+      return `${yil} ${donemAdi} Dönemi`;
+    }
+
+    function renderYariyillar(donemData, osymTaban) {
+      let html = '';
+
+      for (const [yariyil, data] of Object.entries(donemData)) {
+        const { kontenjan, yerlesen, taban, tavan } = data;
+
+        // Kontenjan 0 ise
+        if (kontenjan === 0) {
+          html += `
+            <div class="yariyil-row">
+              <span class="yariyil-name">${yariyil}</span>
+              <span class="no-data">Bu yarıyıl için kontenjan açılmamış</span>
+            </div>
+          `;
+          continue;
+        }
+
+        // Yerleşen 0 ise
+        if (yerlesen === 0) {
+          html += `
+            <div class="yariyil-row">
+              <span class="yariyil-name">${yariyil}</span>
+              <span class="stat-item">Kont: <strong>${kontenjan}</strong></span>
+              <span class="stat-item">Yer: <strong>0</strong></span>
+              <span class="no-data">Yerleşen olmadığı için tahmin yapılamıyor</span>
+            </div>
+          `;
+          continue;
+        }
+
+        // Normal durum
+        const gnoTaban = hesaplaGNO(taban, currentYksPuan, osymTaban);
+        const gnoTavan = hesaplaGNO(tavan, currentYksPuan, osymTaban);
+        
+        const gnoTabanResult = formatGNO(gnoTaban);
+        const gnoTavanResult = formatGNO(gnoTavan);
+
+        let gnoText = '';
+        let gnoClass = '';
+
+        if (gnoTaban !== null && gnoTavan !== null) {
+          if (gnoTaban > 4 && gnoTavan > 4) {
+            gnoText = 'Bu YKS puanıyla geçiş zor (GNO > 4.00 gerekir)';
+            gnoClass = 'error';
+          } else if (gnoTaban <= 0 && gnoTavan <= 0) {
+            gnoText = 'Herhangi bir GNO ile geçiş mümkün';
+            gnoClass = 'info';
+          } else {
+            const minGno = Math.max(0, Math.min(gnoTaban, gnoTavan));
+            const maxGno = Math.min(4, Math.max(gnoTaban, gnoTavan));
+            
+            if (maxGno > 4) {
+              gnoText = `Gereken GNO: ${minGno.toFixed(2)} - 4.00+`;
+              gnoClass = 'warning';
+            } else {
+              gnoText = `Gereken GNO: ${minGno.toFixed(2)} - ${maxGno.toFixed(2)}`;
+              gnoClass = '';
+            }
+          }
+        } else {
+          gnoText = 'GNO hesaplanamıyor (ÖSYM verisi eksik)';
+          gnoClass = 'warning';
+        }
+
+        html += `
+          <div class="yariyil-row">
+            <span class="yariyil-name">${yariyil}</span>
+            <span class="stat-item">Kont: <strong>${kontenjan}</strong></span>
+            <span class="stat-item">Yer: <strong>${yerlesen}</strong></span>
+            <span class="stat-item">Taban: <strong>${taban?.toFixed(4) || '-'}</strong></span>
+            <span class="stat-item">Tavan: <strong>${tavan?.toFixed(4) || '-'}</strong></span>
+          </div>
+          <div class="gno-result ${gnoClass}">
+            ${gnoText}
+          </div>
+        `;
+      }
+
+      return html;
+    }
+
+    function toggleCard(card) {
+      card.classList.toggle('open');
+    }
+
+    function filterPrograms() {
+      if (currentYksPuan) {
+        renderPrograms();
+      }
+    }
+
+    // Enter tuşu ile hesaplama
+    document.getElementById('yksPuan').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') hesapla();
+    });
+  </script>
+</body>
+</html>
