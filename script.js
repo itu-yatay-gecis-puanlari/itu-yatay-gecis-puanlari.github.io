@@ -91,12 +91,19 @@
       `;
       let count = 0;
 
-      for (const [programAdi, programData] of Object.entries(programlar)) {
-        // Arama filtresi
-        if (searchTerm && !programAdi.toLowerCase().includes(searchTerm)) {
-          continue;
-        }
+      // Programları 2025 YKS puanına göre sırala (yüksekten düşüğe)
+      const sortedPrograms = Object.entries(programlar)
+        .filter(([programAdi, programData]) => {
+          // Arama filtresi
+          return !searchTerm || programAdi.toLowerCase().includes(searchTerm);
+        })
+        .sort(([, dataA], [, dataB]) => {
+          const puanA = dataA.osym_taban_puanlari[2025] || 0;
+          const puanB = dataB.osym_taban_puanlari[2025] || 0;
+          return puanB - puanA; // Yüksekten düşüğe sıralama
+        });
 
+      for (const [programAdi, programData] of sortedPrograms) {
         count++;
         const osymTaban = programData.osym_taban_puanlari[currentYksYil];
         
@@ -176,11 +183,18 @@
     }
 
     function formatDonemKisa(donem) {
-      // 202610 -> 2026 Güz
-      const yil = donem.substring(0, 4);
+      // 202610 -> 2025-2026 Güz (akademik yıl formatı)
+      const yil = parseInt(donem.substring(0, 4));
       const ay = donem.substring(4);
       const donemAdi = ay === '10' ? 'Güz' : 'Bahar';
-      return `${yil} ${donemAdi}`;
+      
+      if (ay === '10') {
+        // Güz dönemi: bir önceki yıl ile başlar (2026 Güz -> 2025-2026 Güz)
+        return `${yil - 1}-${yil} ${donemAdi}`;
+      } else {
+        // Bahar dönemi: aynı akademik yıl (2025 Bahar -> 2024-2025 Bahar)  
+        return `${yil - 1}-${yil} ${donemAdi}`;
+      }
     }
 
     function createDataRow(label, data, osymTaban) {
