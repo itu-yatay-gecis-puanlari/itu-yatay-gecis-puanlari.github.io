@@ -95,7 +95,6 @@
               <th class="col-gno">Max GNO</th>
             </tr>
           </thead>
-          <tbody>
       `;
       let count = 0;
 
@@ -117,6 +116,8 @@
         
         // Dönem satırlarını topla
         const donemRows = collectDonemRows(programData, osymTaban);
+        
+        html += '<tbody class="program-group">';
         
         if (donemRows.length === 0) {
           // Veri yoksa tek satır göster
@@ -158,9 +159,10 @@
             }
           });
         }
+        html += '</tbody>';
       }
 
-      html += '</tbody></table>';
+      html += '</table>';
 
       document.getElementById('results-container').innerHTML = html;
       
@@ -219,17 +221,19 @@
 
         if (kontenjan === 0) {
             return `
-              <td class="col-donem">${label}</td>
+              <td class="col-donem" data-label="Dönem">${label}</td>
               <td colspan="6" class="no-data-cell">Kontenjan Açılmadı</td>
             `;
         }
 
         if (yerlesen === 0) {
             return `
-              <td class="col-donem">${label}</td>
-              <td class="col-stat">${kontenjan}</td>
-              <td class="col-stat">0</td>
-              <td colspan="4" class="no-data-cell">Yerleşen Yok</td>
+              <td class="col-donem" data-label="Dönem">${label}</td>
+              <td class="col-stat" data-label="Kont" data-order="1">${kontenjan}</td>
+              <td class="col-stat" data-label="Taban" data-order="2">-</td>
+              <td class="col-gno" data-label="Min GNO" data-order="3">-</td>
+              <td class="col-stat" data-label="Yer" data-order="4">0</td>
+              <td colspan="2" class="no-data-cell">Yerleşen Yok</td>
             `;
         }
 
@@ -275,13 +279,13 @@
         }
 
         return `
-          <td class="col-donem">${label}</td>
-          <td class="col-stat">${kontenjan}</td>
-          <td class="col-stat">${yerlesen}</td>
-          <td class="col-stat">${taban ? taban.toFixed(4) : '-'}</td>
-          <td class="col-stat">${tavan ? tavan.toFixed(4) : '-'}</td>
-          <td class="col-gno ${minClass}">${minGnoDisplay}</td>
-          <td class="col-gno ${maxClass}">${maxGnoDisplay}</td>
+          <td class="col-donem" data-label="Dönem">${label}</td>
+          <td class="col-stat" data-label="Kont" data-order="1">${kontenjan}</td>
+          <td class="col-stat" data-label="Taban" data-order="2">${taban ? taban.toFixed(4) : '-'}</td>
+          <td class="col-gno ${minClass}" data-label="Min GNO" data-order="3">${minGnoDisplay}</td>
+          <td class="col-stat" data-label="Yer" data-order="4">${yerlesen}</td>
+          <td class="col-stat" data-label="Tavan" data-order="5">${tavan ? tavan.toFixed(4) : '-'}</td>
+          <td class="col-gno ${maxClass}" data-label="Max GNO" data-order="6">${maxGnoDisplay}</td>
         `;
     }
 
