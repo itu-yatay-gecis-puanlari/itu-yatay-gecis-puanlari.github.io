@@ -229,11 +229,9 @@
         if (yerlesen === 0) {
             return `
               <td class="col-donem" data-label="Dönem">${label}</td>
-              <td class="col-stat" data-label="Kont" data-order="1">${kontenjan}</td>
-              <td class="col-stat" data-label="Taban" data-order="2">-</td>
-              <td class="col-gno" data-label="Min GNO" data-order="3">-</td>
-              <td class="col-stat" data-label="Yer" data-order="4">0</td>
-              <td colspan="2" class="no-data-cell">Yerleşen Yok</td>
+              <td class="col-stat" data-label="Kontenjan">${kontenjan}</td>
+              <td class="col-stat" data-label="Yerleşen">0</td>
+              <td colspan="4" class="no-data-cell">Yerleşen Yok</td>
             `;
         }
 
@@ -280,12 +278,12 @@
 
         return `
           <td class="col-donem" data-label="Dönem">${label}</td>
-          <td class="col-stat" data-label="Kont" data-order="1">${kontenjan}</td>
-          <td class="col-stat" data-label="Taban" data-order="2">${taban ? taban.toFixed(4) : '-'}</td>
-          <td class="col-gno ${minClass}" data-label="Min GNO" data-order="3">${minGnoDisplay}</td>
-          <td class="col-stat" data-label="Yer" data-order="4">${yerlesen}</td>
-          <td class="col-stat" data-label="Tavan" data-order="5">${tavan ? tavan.toFixed(4) : '-'}</td>
-          <td class="col-gno ${maxClass}" data-label="Max GNO" data-order="6">${maxGnoDisplay}</td>
+          <td class="col-stat" data-label="Kont">${kontenjan}</td>
+          <td class="col-stat" data-label="Yer">${yerlesen}</td>
+          <td class="col-stat" data-label="Taban">${taban ? taban.toFixed(4) : '-'}</td>
+          <td class="col-stat" data-label="Tavan">${tavan ? tavan.toFixed(4) : '-'}</td>
+          <td class="col-gno ${minClass}" data-label="Min GNO">${minGnoDisplay}</td>
+          <td class="col-gno ${maxClass}" data-label="Max GNO">${maxGnoDisplay}</td>
         `;
     }
 

@@ -358,12 +358,12 @@
         align-items: center;
       }
 
-      /* Veri hücrelerini 3x2 grid yapısında göster */
+      /* Veri hücrelerini grid yapısında göster (3x2 grid, istenen sıra ile) */
       .programs-table .col-stat, 
       .programs-table .col-gno {
-        display: flex;
+        display: inline-flex;
         flex-direction: column;
-        width: 32%; /* 3 sütun */
+        width: 32.66%; /* 3 sütun */
         margin-right: 1%;
         margin-bottom: 8px;
         background: #f8fafc;
@@ -371,57 +371,31 @@
         border-radius: 6px;
         text-align: center;
         border: 1px solid #eee;
-        box-sizing: border-box;
+        vertical-align: top;
       }
       
-      /* Grid sıralaması: order özelliği ile */
-      /* Sol sütun: Kontenjan (üst) ve Yerleşen (alt) */
-      .programs-table .col-stat[data-order="1"] {
-        order: 1; /* Sol üst */
-      }
+      /* Order ile sıralamayı değiştir: 
+         Sol: Kont, Yer
+         Orta: Taban, Tavan
+         Sağ: Min, Max
+      */
       
-      .programs-table .col-stat[data-order="4"] {
-        order: 4; /* Sol alt */
-      }
+      /* İlk satır elementleri (Üst) */
+      .programs-table td[data-label="Kont"] { order: 10; }
+      .programs-table td[data-label="Taban"] { order: 11; }
+      .programs-table td[data-label="Min GNO"] { order: 12; margin-right: 0 !important; }
       
-      /* Orta sütun: Taban Puan (üst) ve Tavan Puan (alt) */
-      .programs-table .col-stat[data-order="2"] {
-        order: 2; /* Orta üst */
-      }
+      /* İkinci satır elementleri (Alt) */
+      .programs-table td[data-label="Yer"] { order: 20; }
+      .programs-table td[data-label="Tavan"] { order: 21; }
+      .programs-table td[data-label="Max GNO"] { order: 22; margin-right: 0 !important; }
+
+      /* Başlıklar en üstte */
+      .programs-table .col-program { order: -1; width: 100%; margin-right: 0; }
+      .programs-table .col-donem { order: 0; width: 100%; margin-right: 0; }
       
-      .programs-table .col-stat[data-order="5"] {
-        order: 5; /* Orta alt */
-      }
-      
-      /* Sağ sütun: Min GNO (üst) ve Max GNO (alt) */
-      .programs-table .col-gno[data-order="3"] {
-        order: 3; /* Sağ üst */
-      }
-      
-      .programs-table .col-gno[data-order="6"] {
-        order: 6; /* Sağ alt */
-      }
-      
-      /* Sağ sütunun margin'ini kaldır */
-      .programs-table .col-gno[data-order="3"],
-      .programs-table .col-gno[data-order="6"] {
-        margin-right: 0;
-      }
-      
-      /* Üst satır için margin-bottom azalt */
-      .programs-table .col-stat[data-order="1"],
-      .programs-table .col-stat[data-order="2"],
-      .programs-table .col-gno[data-order="3"] {
-        margin-bottom: 4px;
-      }
-      
-      /* Alt satır için margin-top kaldır */
-      .programs-table .col-stat[data-order="4"],
-      .programs-table .col-stat[data-order="5"],
-      .programs-table .col-gno[data-order="6"] {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
+      /* Yerleşen yok hücresi */
+      .programs-table .no-data-cell { order: 30; }
 
       .col-stat::before, .col-gno::before {
         content: attr(data-label);
