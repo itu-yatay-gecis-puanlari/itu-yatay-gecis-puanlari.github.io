@@ -180,6 +180,10 @@
       vertical-align: top;
     }
 
+    .programs-table th.col-stat,
+    .programs-table th.col-gno {
+      text-align: center;
+    }
 
     .programs-table td {
       padding: 6px 10px;
