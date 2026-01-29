@@ -206,9 +206,19 @@
       vertical-align: top;
     }
 
-    .col-donem {
-      width: 13%;
-      min-width: 100px;
+    .col-yil {
+      width: 8%;
+      min-width: 90px;
+      font-weight: 600;
+      color: var(--text-main);
+      vertical-align: middle;
+      text-align: center;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .col-yariyil {
+      width: 10%;
+      min-width: 90px;
       font-weight: 500;
       color: var(--text-main);
       position: relative;
@@ -337,8 +347,12 @@
 
       /* Bölüm ve Dönem tam genişlik */
       .programs-table .col-program,
-      .programs-table .col-donem {
+      .programs-table .col-yariyil {
         width: 100%;
+      }
+
+      .programs-table .col-yil {
+        display: none;
       }
 
       .col-program {
@@ -352,7 +366,7 @@
         margin-bottom: 4px;
       }
 
-      .col-donem {
+      .col-yariyil {
         font-weight: 700;
         font-size: 0.9rem;
         margin-bottom: 8px;
@@ -360,6 +374,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+      
+      .col-yariyil::before {
+        content: attr(data-yil) " - " attr(data-label);
+      }
+      
+      .col-yariyil[data-label="Dönem"]::before {
+         /* data-label zaten içerikte varsa tekrar etmesin diye özel kontrol gerekebilir ama 
+            biz script.js'de data-label'ı "3.Yarıyıl" gibi net vereceğiz. 
+            Burada content'i override ediyoruz.
+         */
+         content: attr(data-yil) " - " attr(data-yariyil-text);
       }
 
       /* Veri hücrelerini grid yapısında göster (3x2 grid, istenen sıra ile) */
@@ -396,7 +422,7 @@
 
       /* Başlıklar en üstte */
       .programs-table .col-program { order: -1; width: 100%; margin-right: 0; }
-      .programs-table .col-donem { order: 0; width: 100%; margin-right: 0; }
+      .programs-table .col-yariyil { order: 0; width: 100%; margin-right: 0; }
       
       /* Yerleşen yok hücresi */
       .programs-table .no-data-cell { order: 30; }

@@ -80,11 +80,12 @@
           <thead>
             <tr>
               <th class="col-program">Bölüm</th>
-              <th class="col-donem">
+              <th class="col-yil">Yıl</th>
+              <th class="col-yariyil">
                 Dönem <select id="yariyilFilter" class="yariyil-filter" onchange="filterByYariyil()">
                   <option value="all" ${selectedYariyilFilter === 'all' ? 'selected' : ''}>Tümü</option>
-                  <option value="3.Yarıyıl" ${selectedYariyilFilter === '3.Yarıyıl' ? 'selected' : ''}>Sadece 3. Yarıyıl</option>
-                  <option value="5.Yarıyıl" ${selectedYariyilFilter === '5.Yarıyıl' ? 'selected' : ''}>Sadece 5. Yarıyıl</option>
+                  <option value="3.Yarıyıl" ${selectedYariyilFilter === '3.Yarıyıl' ? 'selected' : ''}>3. Yarıyıl</option>
+                  <option value="5.Yarıyıl" ${selectedYariyilFilter === '5.Yarıyıl' ? 'selected' : ''}>5. Yarıyıl</option>
                 </select>
               </th>
               <th class="col-stat">Kontenjan</th>
@@ -114,12 +115,12 @@
         count++;
         const osymTaban = programData.osym_taban_puanlari[currentYksYil];
         
-        // Dönem satırlarını topla
-        const donemRows = collectDonemRows(programData, osymTaban);
+        // Yıllara göre gruplanmış verileri al
+        const groupedRows = collectGroupedRows(programData, osymTaban);
         
         html += '<tbody class="program-group">';
         
-        if (donemRows.length === 0) {
+        if (Object.keys(groupedRows).length === 0) {
           // Veri yoksa tek satır göster
           const osymBadge = osymTaban 
             ? `<span class="osym-badge">${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</span>`
@@ -132,32 +133,46 @@
                 <span class="program-cell-faculty">${programData.fakulte}</span>
                 ${osymBadge}
               </td>
-              <td colspan="7" class="no-data-cell">Görüntülenecek geçmiş dönem verisi bulunamadı</td>
+              <td colspan="8" class="no-data-cell">Görüntülenecek geçmiş dönem verisi bulunamadı</td>
             </tr>
           `;
         } else {
-          // Her dönem için satır ekle
-          donemRows.forEach((row, index) => {
-            if (index === 0) {
-              // İlk satırda program bilgisi rowspan ile
-              const osymBadge = osymTaban 
-                ? `<span class="osym-badge">${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</span>`
-                : `<span class="osym-badge warning">${currentYksYil} Taban Puanı: Veri Yok</span>`;
+          // Her yıl grubu için döngü
+          let isFirstYear = true;
+          for (const [yilLabel, rows] of Object.entries(groupedRows)) {
+            
+            rows.forEach((rowHtml, index) => {
+              html += '<tr>';
               
-              html += `
-                <tr>
-                  <td class="col-program" rowspan="${donemRows.length}">
+              // İlk yılın ilk satırında program bilgisi
+              if (isFirstYear && index === 0) {
+                // Toplam satır sayısını hesapla
+                let totalRows = 0;
+                Object.values(groupedRows).forEach(r => totalRows += r.length);
+                
+                const osymBadge = osymTaban 
+                  ? `<span class="osym-badge">${currentYksYil} Taban Puanı: ${osymTaban.toFixed(2)}</span>`
+                  : `<span class="osym-badge warning">${currentYksYil} Taban Puanı: Veri Yok</span>`;
+                
+                html += `
+                  <td class="col-program" rowspan="${totalRows}">
                     <span class="program-cell-title">${programAdi}</span>
                     <span class="program-cell-faculty">${programData.fakulte}</span>
                     ${osymBadge}
                   </td>
-                  ${row}
-                </tr>
-              `;
-            } else {
-              html += `<tr>${row}</tr>`;
-            }
-          });
+                `;
+                isFirstYear = false;
+              }
+              
+              // Yılın ilk satırında Yıl hücresi
+              if (index === 0) {
+                html += `<td class="col-yil" rowspan="${rows.length}">${yilLabel}</td>`;
+              }
+              
+              html += rowHtml;
+              html += '</tr>';
+            });
+          }
         }
         html += '</tbody>';
       }
@@ -171,27 +186,36 @@
       }
     }
 
-    function collectDonemRows(programData, osymTaban) {
+    function collectGroupedRows(programData, osymTaban) {
       const donemler = appData.meta.donemler;
-      const rows = [];
+      const grouped = {}; // { '2025-2026': [rowHtml1, rowHtml2], '2024-2025': [...] }
 
       for (const donem of donemler) {
         const donemData = programData.yatay_gecis_istatistikleri[donem];
         if (!donemData) continue;
         
+        const yilLabel = formatDonemKisa(donem);
+        if (!grouped[yilLabel]) {
+            grouped[yilLabel] = [];
+        }
+
         for (const [yariyil, data] of Object.entries(donemData)) {
           // Yarıyıl filtresi uygula
           if (selectedYariyilFilter !== 'all' && yariyil !== selectedYariyilFilter) {
             continue;
           }
           
-          const donemLabel = formatDonemKisa(donem) + ' - ' + yariyil;
-          const rowHtml = createDataRow(donemLabel, data, osymTaban);
-          if (rowHtml) rows.push(rowHtml);
+          const rowHtml = createDataRow(yilLabel, yariyil, data, osymTaban);
+          if (rowHtml) grouped[yilLabel].push(rowHtml);
+        }
+        
+        // Eğer filtreleme sonucu yıl boş kaldıysa key'i sil
+        if (grouped[yilLabel].length === 0) {
+            delete grouped[yilLabel];
         }
       }
 
-      return rows;
+      return grouped;
     }
 
     function filterByYariyil() {
@@ -216,19 +240,19 @@
       }
     }
 
-    function createDataRow(label, data, osymTaban) {
+    function createDataRow(yil, yariyil, data, osymTaban) {
         const { kontenjan, yerlesen, taban, tavan } = data;
 
         if (kontenjan === 0) {
             return `
-              <td class="col-donem" data-label="Dönem">${label}</td>
+              <td class="col-yariyil" data-label="Dönem" data-yil="${yil}" data-yariyil-text="${yariyil}">${yariyil}</td>
               <td colspan="6" class="no-data-cell">Kontenjan Açılmadı</td>
             `;
         }
 
         if (yerlesen === 0) {
             return `
-              <td class="col-donem" data-label="Dönem">${label}</td>
+              <td class="col-yariyil" data-label="Dönem" data-yil="${yil}" data-yariyil-text="${yariyil}">${yariyil}</td>
               <td class="col-stat" data-label="Kontenjan">${kontenjan}</td>
               <td class="col-stat" data-label="Yerleşen">0</td>
               <td colspan="4" class="no-data-cell">Yerleşen Yok</td>
@@ -277,7 +301,7 @@
         }
 
         return `
-          <td class="col-donem" data-label="Dönem">${label}</td>
+          <td class="col-yariyil" data-label="Dönem" data-yil="${yil}" data-yariyil-text="${yariyil}">${yariyil}</td>
           <td class="col-stat" data-label="Kont">${kontenjan}</td>
           <td class="col-stat" data-label="Yer">${yerlesen}</td>
           <td class="col-stat" data-label="Taban">${taban ? taban.toFixed(4) : '-'}</td>
