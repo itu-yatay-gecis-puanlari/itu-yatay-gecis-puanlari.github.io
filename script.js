@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderInitialMessage() {
   document.getElementById('results-container').innerHTML =
     `<div class="loading">
-           <p style="font-size: 1.1rem; color: var(--text);">Lütfen hesaplama yapmak için <strong>YKS Puanınızı</strong> girin ve <strong>Hesapla</strong> butonuna tıklayın.</p>
+           <p style="font-size: 1.1rem; color: var(--text);">Sonuçları görmek için <strong>YKS Puanınızı</strong> girip <strong>Sınav Yılınızı</strong> seçtikten sonra <strong>Hesapla</strong> butonuna tıklayın.</p>
          </div>`;
 }
 
