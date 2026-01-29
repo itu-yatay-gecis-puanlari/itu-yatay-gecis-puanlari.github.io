@@ -321,3 +321,22 @@
     document.getElementById('yksPuan').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') hesapla();
     });
+
+    // Modal Açma/Kapama Fonksiyonları
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+      document.body.style.overflow = "hidden"; // Arka plan kaydırmayı engelle
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+      document.body.style.overflow = "auto"; // Kaydırmayı geri aç
+    }
+
+    // Modal dışına tıklayınca kapatma
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+    }

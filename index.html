@@ -9,8 +9,15 @@
 <body>
   <div class="container">
     <header>
-      <h1>İTÜ Yatay Geçiş GNO Hesaplayıcı</h1>
-      <p>YKS puanınıza göre gereken GNO'yu hesaplayın</p>
+      <div class="header-content">
+        <h1>İTÜ Yatay Geçiş GNO Hesaplayıcı</h1>
+        <p>YKS puanınıza göre gereken GNO'yu hesaplayın</p>
+      </div>
+      <nav class="header-nav">
+        <a href="#" onclick="openModal('infoModal'); return false;">Nasıl Çalışır?</a>
+        <span class="separator">|</span>
+        <a href="#" onclick="openModal('contactModal'); return false;">İletişim</a>
+      </nav>
     </header>
 
     <div class="input-section">
@@ -44,6 +51,40 @@
       <p>Veriler İTÜ ve ÖSYM kaynaklarından derlenmiştir.</p>
       <p>Son güncelleme: <span id="footerDate">-</span></p>
     </footer>
+  </div>
+
+  <!-- Nasıl Çalışır Modalı -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('infoModal')">&times;</span>
+      <h2>Yatay Geçiş Puanı Nasıl Hesaplanır?</h2>
+      <div class="modal-body">
+        <p>İTÜ Kurumiçi Yatay Geçiş puanı şu formülle hesaplanır:</p>
+        <div class="formula-box">
+          (YKS Puanı / Bölüm Taban Puanı) × 0.40 <br>
+          + <br>
+          (GNO / 4.00 × 100) × 0.60
+        </div>
+        <h3>Bu Araç Ne İşe Yarar?</h3>
+        <p>Bu araç, hedeflediğiniz bölümün geçmiş yıllardaki yatay geçiş taban puanlarını analiz eder. Sizin YKS puanınızı formülde yerine koyarak, o yıl o bölüme girmek için <strong>yapmanız gereken minimum ortalamayı (GNO)</strong> tersten hesaplar.</p>
+        <p class="note">Not: Hesaplamalar geçmiş yıl verilerine dayanır ve fikir verme amaçlıdır. Resmi bir bağlayıcılığı yoktur.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- İletişim Modalı -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
+      <h2>İletişim & Hata Bildirimi</h2>
+      <div class="modal-body">
+        <p>Uygulamada bir hata fark ettiyseniz veya öneriniz varsa lütfen iletişime geçin.</p>
+        <div class="contact-box">
+          <p><strong>E-posta:</strong> <a href="mailto:omerfarukalacam@gmail.com">omerfarukalacam@gmail.com</a></p>
+          <p><strong>Geliştirici:</strong> Ömer Faruk Alaçam</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
