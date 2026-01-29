@@ -608,13 +608,19 @@
 
     .modal-content {
       background-color: #fff;
-      margin: 10% auto;
+      margin: 5% auto;
+      /* Adjusted margin */
       padding: 0;
       border-radius: 12px;
       width: 90%;
       max-width: 850px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       animation: slideIn 0.3s ease-out;
+      /* Fix for long content */
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      /* Maximum height relative to viewport */
     }
 
     .modal-header {
@@ -637,6 +643,8 @@
     .modal-body {
       padding: 25px;
       color: var(--text);
+      /* Enable scrolling */
+      overflow-y: auto;
     }
 
     .close-btn {
