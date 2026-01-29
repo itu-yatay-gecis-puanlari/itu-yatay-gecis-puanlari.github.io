@@ -19,7 +19,7 @@
       --text-muted: #6b7280;
       --border-color: #e5e7eb;
       --border: #e5e7eb;
-      --shadow: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
     body {
@@ -315,7 +315,9 @@
 
 
     @media (max-width: 900px) {
-      .programs-table, .programs-table tbody {
+
+      .programs-table,
+      .programs-table tbody {
         display: block;
         width: 100%;
         min-width: 0;
@@ -334,7 +336,7 @@
         border: 1px solid var(--border-color);
         border-radius: 8px;
         padding: 12px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       }
 
       /* Tüm hücreler için temel stil */
@@ -372,39 +374,44 @@
         font-size: 0.9rem;
         margin-bottom: 8px;
         color: var(--text-main);
-        display: block; /* Flex yerine Block yapalım, içeriği gizleyip sadece before'u göstereceğiz */
-        visibility: visible; /* Kendisini görünür kıl */
+        display: block;
+        /* Flex yerine Block yapalım, içeriği gizleyip sadece before'u göstereceğiz */
+        visibility: visible;
+        /* Kendisini görünür kıl */
       }
-      
+
       /* İçeriği gizle (sağ üstteki 3.Yarıyıl metni) */
       .col-yariyil {
-        font-size: 0; /* Metni gizle */
+        font-size: 0;
+        /* Metni gizle */
       }
 
       .col-yariyil::before {
         content: attr(data-yil) " - " attr(data-yariyil-text);
-        font-size: 0.9rem; /* Before içeriği için boyutu geri getir */
+        font-size: 0.9rem;
+        /* Before içeriği için boyutu geri getir */
         display: block;
         width: 100%;
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 8px;
         margin-bottom: 8px;
       }
-      
+
       .col-yariyil[data-label="Dönem"]::before {
-         /* data-label zaten içerikte varsa tekrar etmesin diye özel kontrol gerekebilir ama 
+        /* data-label zaten içerikte varsa tekrar etmesin diye özel kontrol gerekebilir ama 
             biz script.js'de data-label'ı "3.Yarıyıl" gibi net vereceğiz. 
             Burada content'i override ediyoruz.
          */
-         content: attr(data-yil) " - " attr(data-yariyil-text);
+        content: attr(data-yil) " - " attr(data-yariyil-text);
       }
 
       /* Veri hücrelerini grid yapısında göster (3x2 grid, istenen sıra ile) */
-      .programs-table .col-stat, 
+      .programs-table .col-stat,
       .programs-table .col-gno {
         display: inline-flex;
         flex-direction: column;
-        width: 32.66%; /* 3 sütun */
+        width: 32.66%;
+        /* 3 sütun */
         margin-right: 1%;
         margin-bottom: 8px;
         background: #f8fafc;
@@ -414,31 +421,61 @@
         border: 1px solid #eee;
         vertical-align: top;
       }
-      
+
       /* Order ile sıralamayı değiştir: 
          Sol: Kont, Yer
          Orta: Taban, Tavan
          Sağ: Min, Max
       */
-      
+
       /* İlk satır elementleri (Üst) */
-      .programs-table td[data-label="Kont"] { order: 10; }
-      .programs-table td[data-label="Taban"] { order: 11; }
-      .programs-table td[data-label="Min GNO"] { order: 12; margin-right: 0 !important; }
-      
+      .programs-table td[data-label="Kont"] {
+        order: 10;
+      }
+
+      .programs-table td[data-label="Taban"] {
+        order: 11;
+      }
+
+      .programs-table td[data-label="Min GNO"] {
+        order: 12;
+        margin-right: 0 !important;
+      }
+
       /* İkinci satır elementleri (Alt) */
-      .programs-table td[data-label="Yer"] { order: 20; }
-      .programs-table td[data-label="Tavan"] { order: 21; }
-      .programs-table td[data-label="Max GNO"] { order: 22; margin-right: 0 !important; }
+      .programs-table td[data-label="Yer"] {
+        order: 20;
+      }
+
+      .programs-table td[data-label="Tavan"] {
+        order: 21;
+      }
+
+      .programs-table td[data-label="Max GNO"] {
+        order: 22;
+        margin-right: 0 !important;
+      }
 
       /* Başlıklar en üstte */
-      .programs-table .col-program { order: -1; width: 100%; margin-right: 0; }
-      .programs-table .col-yariyil { order: 0; width: 100%; margin-right: 0; }
-      
-      /* Yerleşen yok hücresi */
-      .programs-table .no-data-cell { order: 30; }
+      .programs-table .col-program {
+        order: -1;
+        width: 100%;
+        margin-right: 0;
+      }
 
-      .col-stat::before, .col-gno::before {
+      .programs-table .col-yariyil {
+        order: 0;
+        width: 100%;
+        margin-right: 0;
+      }
+
+      /* Yerleşen yok hücresi */
+      .programs-table .no-data-cell {
+        order: 30;
+      }
+
+      .col-stat::before,
+      .col-gno::before {
         content: attr(data-label);
         display: block;
         font-weight: 600;
@@ -459,7 +496,7 @@
         border-radius: 4px;
         margin-top: 8px;
       }
-      
+
       .yariyil-filter {
         max-width: 120px;
       }
@@ -536,31 +573,37 @@
       margin-top: 15px;
       font-size: 0.9rem;
     }
+
     .header-nav a {
       color: white;
       text-decoration: underline;
       cursor: pointer;
       opacity: 0.9;
     }
+
     .header-nav a:hover {
       opacity: 1;
     }
+
     .separator {
       margin: 0 8px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     /* Modal Stilleri */
     .modal {
-      display: none; /* Varsayılan olarak gizli */
+      display: none;
+      /* Varsayılan olarak gizli */
       position: fixed;
       z-index: 1000;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5); /* Siyah yarı saydam arka plan */
-      backdrop-filter: blur(4px); /* Arka planı bulanıklaştır */
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Siyah yarı saydam arka plan */
+      backdrop-filter: blur(4px);
+      /* Arka planı bulanıklaştır */
     }
 
     .modal-content {
@@ -569,8 +612,8 @@
       padding: 0;
       border-radius: 12px;
       width: 90%;
-      max-width: 600px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 850px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       animation: slideIn 0.3s ease-out;
     }
 
@@ -687,15 +730,15 @@
         flex-direction: column;
         gap: 12px;
       }
-      
+
       .operator {
         margin: 4px 0;
       }
-      
+
       .paren {
         font-size: 1.8rem;
       }
-      
+
       .fraction .numerator,
       .fraction .denominator {
         font-size: 0.8rem;
@@ -717,6 +760,13 @@
     }
 
     @keyframes slideIn {
-      from {transform: translateY(-50px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
