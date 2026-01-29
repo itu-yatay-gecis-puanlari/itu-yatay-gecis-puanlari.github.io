@@ -63,9 +63,9 @@ function formatGNO(gno) {
   if (gno === null) return { text: 'Hesaplanamıyor', class: 'info' };
 
   if (gno <= 0) {
-    return { text: 'Herhangi bir GNO ile geçiş mümkün', class: 'info' };
+    return { text: 'Herhangi bir AGNO ile geçiş mümkün', class: 'info' };
   } else if (gno > 4) {
-    return { text: 'Bu YKS puanıyla geçiş zor (GNO > 4.00 gerekir)', class: 'error' };
+    return { text: 'Bu YKS puanıyla geçiş zor (AGNO > 4.00 gerekir)', class: 'error' };
   } else {
     return { text: gno.toFixed(2), class: '' };
   }
@@ -94,8 +94,8 @@ function renderPrograms() {
               <th class="col-stat">Yerleşen</th>
               <th class="col-stat">Taban Puan</th>
               <th class="col-stat">Tavan Puan</th>
-              <th class="col-gno">Min GNO</th>
-              <th class="col-gno">Max GNO</th>
+              <th class="col-gno">Min AGNO</th>
+              <th class="col-gno">Max AGNO</th>
             </tr>
           </thead>
       `;
