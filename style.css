@@ -171,7 +171,7 @@
 
     .programs-table th {
       text-align: left;
-      padding: 8px 10px;
+      padding: 6px 8px;
       background: var(--bg-color);
       color: var(--text-muted);
       font-weight: 600;
@@ -181,7 +181,8 @@
     }
 
     .programs-table th.col-stat,
-    .programs-table th.col-gno {
+    .programs-table th.col-gno,
+    .programs-table th.col-yil {
       text-align: center;
     }
 
@@ -371,13 +372,23 @@
         font-size: 0.9rem;
         margin-bottom: 8px;
         color: var(--text-main);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        display: block; /* Flex yerine Block yapalım, içeriği gizleyip sadece before'u göstereceğiz */
+        visibility: visible; /* Kendisini görünür kıl */
       }
       
+      /* İçeriği gizle (sağ üstteki 3.Yarıyıl metni) */
+      .col-yariyil {
+        font-size: 0; /* Metni gizle */
+      }
+
       .col-yariyil::before {
-        content: attr(data-yil) " - " attr(data-label);
+        content: attr(data-yil) " - " attr(data-yariyil-text);
+        font-size: 0.9rem; /* Before içeriği için boyutu geri getir */
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 8px;
+        margin-bottom: 8px;
       }
       
       .col-yariyil[data-label="Dönem"]::before {

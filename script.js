@@ -80,9 +80,9 @@
           <thead>
             <tr>
               <th class="col-program">Bölüm</th>
-              <th class="col-yil">Yıl</th>
+              <th class="col-yil">Dönem</th>
               <th class="col-yariyil">
-                Dönem <select id="yariyilFilter" class="yariyil-filter" onchange="filterByYariyil()">
+                Yarıyıl <select id="yariyilFilter" class="yariyil-filter" onchange="filterByYariyil()">
                   <option value="all" ${selectedYariyilFilter === 'all' ? 'selected' : ''}>Tümü</option>
                   <option value="3.Yarıyıl" ${selectedYariyilFilter === '3.Yarıyıl' ? 'selected' : ''}>3. Yarıyıl</option>
                   <option value="5.Yarıyıl" ${selectedYariyilFilter === '5.Yarıyıl' ? 'selected' : ''}>5. Yarıyıl</option>
