@@ -61,9 +61,30 @@
       <div class="modal-body">
         <p>İTÜ Kurumiçi Yatay Geçiş puanı şu formülle hesaplanır:</p>
         <div class="formula-box">
-          (YKS Puanı / Bölüm Taban Puanı) × 0.40 <br>
-          + <br>
-          (GNO / 4.00 × 100) × 0.60
+          <div class="formula">
+            <span class="formula-label">Değerlendirme Puanı:</span>
+            <div class="formula-expression">
+              <div class="formula-part">
+                <span class="paren">(</span>
+                <div class="fraction">
+                  <span class="numerator">Adayın ÖSYS Puanı</span>
+                  <span class="denominator">Hedef Programın Taban Puanı</span>
+                </div>
+                <span class="multiply">× 0.40</span>
+                <span class="paren">)</span>
+              </div>
+              <span class="operator">+</span>
+              <div class="formula-part">
+                <span class="paren">(</span>
+                <div class="fraction">
+                  <span class="numerator">Üniversite AGNO'su</span>
+                  <span class="denominator">100</span>
+                </div>
+                <span class="multiply">× 0.60</span>
+                <span class="paren">)</span>
+              </div>
+            </div>
+          </div>
         </div>
         <h3>Bu Araç Ne İşe Yarar?</h3>
         <p>Bu araç, hedeflediğiniz bölümün geçmiş yıllardaki yatay geçiş taban puanlarını analiz eder. Sizin YKS puanınızı formülde yerine koyarak, o yıl o bölüme girmek için <strong>yapmanız gereken minimum ortalamayı (GNO)</strong> tersten hesaplar.</p>

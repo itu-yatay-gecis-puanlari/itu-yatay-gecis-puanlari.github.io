@@ -604,14 +604,102 @@
 
     .formula-box {
       background: #f3f4f6;
-      padding: 15px;
+      padding: 20px 15px;
       border-radius: 8px;
-      text-align: center;
-      font-family: monospace;
       margin: 15px 0;
       border: 1px solid #e5e7eb;
-      font-weight: bold;
+      overflow-x: auto;
+    }
+
+    .formula {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .formula-label {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+
+    .formula-expression {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .formula-part {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .fraction .numerator {
+      padding: 4px 8px;
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+
+    .fraction .denominator {
+      padding: 4px 8px;
+      border-top: 2px solid #374151;
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+
+    .paren {
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: #374151;
+      line-height: 1;
+    }
+
+    .multiply {
+      font-size: 0.9rem;
+      font-weight: 600;
       color: var(--primary-hover);
+      margin-left: 4px;
+    }
+
+    .operator {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #374151;
+      margin: 0 8px;
+    }
+
+    @media (max-width: 500px) {
+      .formula-expression {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .operator {
+        margin: 4px 0;
+      }
+      
+      .paren {
+        font-size: 1.8rem;
+      }
+      
+      .fraction .numerator,
+      .fraction .denominator {
+        font-size: 0.8rem;
+      }
     }
 
     .contact-box {
