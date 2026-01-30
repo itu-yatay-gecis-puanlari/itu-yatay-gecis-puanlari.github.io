@@ -118,7 +118,10 @@ function renderPrograms() {
       for (const [yilLabel, rows] of Object.entries(groupedRows)) {
 
         rows.forEach((rowHtml, index) => {
-          html += '<tr>';
+          // Mobil görünüm için data attribute'ları ekle
+          // Güvenlik için program adındaki tırnak işaretlerini kaçıralım
+          const safeProgramAd = program.ad.replace(/"/g, '&quot;');
+          html += `<tr data-program="${safeProgramAd}" data-yil="${yilLabel}">`;
 
           // Program hücresi sadece en başta (rowspan ile)
           if (isFirstYear && index === 0) {
@@ -177,10 +180,10 @@ function collectGroupedRows(program, donemler) {
 
       if (Array.isArray(data)) {
         for (const item of data) {
-          yearRows.push(createRowHtml(yariyil, item));
+          yearRows.push(createRowHtml(yariyil, item, donem));
         }
       } else {
-        yearRows.push(createRowHtml(yariyil, data));
+        yearRows.push(createRowHtml(yariyil, data, donem));
       }
     }
 
@@ -193,7 +196,7 @@ function collectGroupedRows(program, donemler) {
 }
 
 // Satır HTML'i (Sadece veri hücreleri)
-function createRowHtml(yariyil, data) {
+function createRowHtml(yariyil, data, yilLabel) {
   const kontenjan = data.kontenjan !== null ? data.kontenjan : '-';
   const yerlesen = data.yerlesen || 0;
   const tavan = formatGPA(data.tavan);
@@ -204,13 +207,16 @@ function createRowHtml(yariyil, data) {
 
   const aciklamaAttr = data.aciklama ? `title="${data.aciklama}"` : '';
   const aciklamaIcon = data.aciklama ? ' <span class="aciklama-icon" ' + aciklamaAttr + '>*</span>' : '';
+  
+  // Yıl ve Yarıyıl birleşimi (Örn: 2024-2025 3. Yarıyıl)
+  const fullYariyilText = `${yilLabel ? yilLabel + ' ' : ''}${yariyil.replace('.Yarıyıl', '. Yarıyıl')}`;
 
   return `
-    <td>${yariyil.replace('.Yarıyıl', '. Yarıyıl')}${aciklamaIcon}</td>
-    <td>${kontenjan}</td>
-    <td>${yerlesen}</td>
-    <td class="${tavanClass}">${tavan}</td>
-    <td class="${tabanClass}">${taban}</td>
+    <td class="cell-yariyil" data-mobil-text="${fullYariyilText}">${yariyil.replace('.Yarıyıl', '. Yarıyıl')}${aciklamaIcon}</td>
+    <td class="cell-kontenjan">${kontenjan}</td>
+    <td class="cell-yerlesen">${yerlesen}</td>
+    <td class="cell-tavan ${tavanClass}">${tavan}</td>
+    <td class="cell-taban ${tabanClass}">${taban}</td>
   `;
 }
 

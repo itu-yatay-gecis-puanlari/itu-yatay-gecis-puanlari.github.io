@@ -1013,3 +1013,151 @@
         height: 32px;
       }
     }
+
+    /* ==================== CAP PAGE MOBILE OPTIMIZATION ==================== */
+    @media (max-width: 900px) {
+      .cap-page .programs-table,
+      .cap-page .programs-table tbody {
+        display: block;
+        width: 100%;
+      }
+
+      .cap-page .programs-table thead {
+        display: none;
+      }
+
+      /* Kart Tasarımı */
+      .cap-page .programs-table tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        background: #fff;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+
+      /* 1. KART BAŞLIĞI: Bölüm Adı */
+      .cap-page .programs-table tr::before {
+        content: attr(data-program);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 8px;
+        display: block;
+        grid-column: 1 / -1;
+        order: -2; 
+      }
+
+      /* 2. ÜST BAŞLIK: Dönem Bilgisi - ARTIK GEREK YOK (Yarıyıl hücresi içinde) */
+      .cap-page .programs-table tr::after {
+        display: none;
+      }
+
+      /* Mevcut hücrelerin masaüstü düzenindeki görünümlerini sıfırla */
+      .cap-page .programs-table td {
+        display: block;
+        width: 100%;
+        padding: 4px 0;
+        border: none;
+        text-align: left;
+      }
+
+      /* Rowspan'lı başlık hücrelerini (Program adı ve Yıl) gizle */
+      .cap-page .programs-table td[rowspan] {
+        display: none !important;
+      }
+
+      /* 1. Hücre: Yıl ve Yarıyıl (Tam genişlik) */
+      .cap-page .programs-table .cell-yariyil {
+         grid-column: 1 / -1;
+         border-bottom: 1px solid var(--border-color);
+         padding-bottom: 12px;
+         margin-bottom: 12px;
+         font-weight: 500;
+         color: var(--text-muted);
+         order: 0;
+         font-size: 0; /* Orijinal metni gizle */
+      }
+      
+      .cap-page .programs-table .cell-yariyil::before {
+        content: attr(data-mobil-text); /* Birleştirilmiş metni göster */
+        font-size: 0.95rem;
+        display: block;
+      }
+
+      /* VERİ SÜTUNLARI - YAN YANA (Tek Satır) */
+      
+      /* Tüm veri hücreleri için ortak stil */
+      .cap-page .programs-table .cell-kontenjan,
+      .cap-page .programs-table .cell-yerlesen,
+      .cap-page .programs-table .cell-taban,
+      .cap-page .programs-table .cell-tavan {
+        background: #f8fafc;
+        border-radius: 6px;
+        padding: 8px 4px;
+        text-align: center;
+        /* Grid Column ayarı yok, otomatik akacaklar */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 60px;
+      }
+      
+      /* Grid düzeninde 4 sütun olmalı, bu yüzden tr'nin grid tanımını da değiştireceğiz */
+      .cap-page .programs-table tr {
+        grid-template-columns: repeat(4, 1fr) !important; /* 4 Eşit sütun */
+      }
+
+      /* Sıralama (Hepsi aynı sırada, Yarıyıldan sonra) */
+      .cap-page .programs-table .cell-kontenjan { order: 1; }
+      .cap-page .programs-table .cell-yerlesen { order: 2; }
+      .cap-page .programs-table .cell-taban { order: 3; }
+      .cap-page .programs-table .cell-tavan { order: 4; }
+
+      /* Etiketler (Başlıklar) - Küçük ve üstte */
+      .cap-page .programs-table .cell-kontenjan::before {
+        content: "Kont.";
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      
+      .cap-page .programs-table .cell-yerlesen::before {
+        content: "Yerl.";
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      
+      .cap-page .programs-table .cell-taban::before {
+        content: "Taban";
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      
+      .cap-page .programs-table .cell-tavan::before {
+        content: "Tavan";
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      
+      /* Değerlerin font boyutu */
+      .cap-page .programs-table .cell-kontenjan,
+      .cap-page .programs-table .cell-yerlesen,
+      .cap-page .programs-table .cell-taban,
+      .cap-page .programs-table .cell-tavan {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+    }
