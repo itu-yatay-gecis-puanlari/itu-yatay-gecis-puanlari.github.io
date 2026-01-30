@@ -223,9 +223,9 @@ function formatGPA(value) {
 // GPA için CSS sınıfı
 function getGPAClass(value) {
   if (value === null || value === undefined) return 'gno-neutral';
-  if (value >= 3.5) return 'gno-high';
-  if (value >= 3.0) return 'gno-medium';
-  return 'gno-low';
+  if (value >= 3.75) return 'gno-high'; // Kırmızı (3.75 - 4.00)
+  if (value >= 3.50) return 'gno-medium'; // Turuncu (3.50 - 3.75)
+  return ''; // Normal text rengi
 }
 
 // Arama filtresi
