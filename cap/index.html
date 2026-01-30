@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÇAP Taban-Tavan Puanları | İTÜ Atlas</title>
+  <meta name="description" content="İTÜ Çift Anadal Programı (ÇAP) geçmiş yılların taban-tavan not ortalamaları">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <a href="../" class="home-link">← İTÜ Atlas</a>
+      <div class="header-content">
+        <h1>ÇAP Taban-Tavan Puanları</h1>
+        <p>Çift Anadal Programı geçmiş yıl istatistikleri</p>
+      </div>
+      <nav class="header-nav">
+        <a href="#" onclick="openModal('infoModal'); return false;">Nasıl Çalışır?</a>
+        <span class="separator">|</span>
+        <a href="#" onclick="openModal('contactModal'); return false;">İletişim</a>
+      </nav>
+    </header>
+
+    <div class="input-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="yilSayisi">Gösterilecek Yıl Sayısı</label>
+          <select id="yilSayisi" onchange="renderPrograms()">
+            <option value="5" selected>Son 5 Yıl</option>
+            <option value="10">Son 10 Yıl</option>
+            <option value="all">Tüm Yıllar</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="yariyilFilter">Yarıyıl</label>
+          <select id="yariyilFilter" onchange="renderPrograms()">
+            <option value="all" selected>Tümü</option>
+            <option value="3.Yarıyıl">3. Yarıyıl</option>
+            <option value="5.Yarıyıl">5. Yarıyıl</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Program ara..." oninput="filterPrograms()">
+    </div>
+
+    <div id="results-container">
+      <div class="loading">Veriler yükleniyor...</div>
+    </div>
+
+    <footer>
+      <p>Veriler İTÜ resmi kaynaklarından derlenmiştir.</p>
+      <p>Son güncelleme: <span id="footerDate">-</span></p>
+    </footer>
+  </div>
+
+  <!-- Nasıl Çalışır Modalı -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>ÇAP Nedir?</h2>
+        <span class="close-btn" onclick="closeModal('infoModal')">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p><strong>Çift Anadal Programı (ÇAP)</strong>, bir lisans programına kayıtlı öğrencinin aynı zamanda ikinci bir lisans diploması almasını sağlayan programdır.</p>
+
+        <h3>Başvuru Koşulları</h3>
+        <ul>
+          <li>Genel Not Ortalaması (GNO) en az <strong>3.00/4.00</strong> olmalıdır</li>
+          <li>3. veya 5. yarıyılda başvuru yapılabilir</li>
+          <li>Başvurulan programın kontenjanı ve taban puanı belirleyicidir</li>
+        </ul>
+
+        <h3>Bu Tablo Ne Gösteriyor?</h3>
+        <p>Bu tablo, geçmiş yıllarda ÇAP programlarına yerleşen öğrencilerin <strong>taban ve tavan not ortalamalarını</strong> gösterir. Bu bilgiler, hedeflediğiniz programa yerleşme şansınızı değerlendirmenize yardımcı olur.</p>
+
+        <p class="note">Not: Veriler geçmiş yıllara aittir ve her yıl değişkenlik gösterebilir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- İletişim Modalı -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>İletişim & Hata Bildirimi</h2>
+        <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p>Uygulamada bir hata fark ettiyseniz veya öneriniz varsa lütfen iletişime geçin.</p>
+        <div class="contact-box">
+          <p><strong>E-posta:</strong> <a href="mailto:dikmenomerf@gmail.com">dikmenomerf@gmail.com</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
