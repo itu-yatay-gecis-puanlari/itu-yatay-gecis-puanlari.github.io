@@ -1032,17 +1032,24 @@
         display: none;
       }
 
-      /* Kart Tasarımı */
+      /* Kart Tasarımı -> Liste Tasarımı */
       .cap-page .programs-table tr {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        gap: 6px;
         background: #fff;
-        margin-bottom: 20px;
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-bottom: 0px;
+        /* Aradaki büyük boşluğu kaldır */
+        border: none;
+        /* Çerçeveyi kaldır */
+        border-bottom: 1px solid var(--border-color);
+        /* Sadece alt çizgi */
+        border-radius: 0;
+        /* Köşe yuvarlamayı kaldır */
+        padding: 8px 12px;
+        /* Dikey paddingi azalt, yatayı başlıkla eşitle */
+        box-shadow: none;
+        /* Gölgeyi kaldır */
         position: relative;
       }
 
@@ -1058,10 +1065,8 @@
         border: none;
         box-shadow: none;
         padding: 0;
-        margin-bottom: 4px;
-        /* Başlık ile kartlar arası boşluk */
+        margin-bottom: 0px;
         margin-top: 16px;
-        /* Gruplar arası boşluk */
       }
 
       /* İlk grup başlığının üst boşluğunu al */
@@ -1075,7 +1080,8 @@
         color: var(--primary);
         font-size: 1.2rem;
         font-weight: 700;
-        padding: 4px 0 8px 0;
+        padding: 4px 12px 8px 12px;
+        /* Yatay padding eklendi */
         text-align: left;
         border: none;
         background: transparent;
@@ -1103,9 +1109,9 @@
       /* 1. Hücre: Yıl ve Yarıyıl (Tam genişlik) */
       .cap-page .programs-table .cell-yariyil {
         grid-column: 1 / -1;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 12px;
-        margin-bottom: 12px;
+        border-bottom: none;
+        padding-bottom: 4px;
+        margin-bottom: 4px;
         font-weight: 500;
         color: var(--text-muted);
         order: 0;
@@ -1129,14 +1135,16 @@
       .cap-page .programs-table .cell-tavan {
         background: #f8fafc;
         border-radius: 6px;
-        padding: 8px 4px;
+        padding: 4px 2px;
+        /* Dikey paddingi azalt */
         text-align: center;
         /* Grid Column ayarı yok, otomatik akacaklar */
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 60px;
+        min-height: 45px;
+        /* Yüksekliği kısalt */
       }
 
       /* Grid düzeninde 4 sütun olmalı, bu yüzden tr'nin grid tanımını da değiştireceğiz */
