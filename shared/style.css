@@ -545,6 +545,8 @@
 
       header h1 {
         font-size: 1.4rem;
+        padding: 0 35px;
+        /* Ok ile çakışmaması için yanlardan boşluk */
       }
 
       .input-row {
@@ -900,17 +902,21 @@
     /* Home link in header */
     .home-link {
       position: absolute;
-      left: 16px;
-      top: 16px;
+      left: 15px;
+      top: 15px;
       color: white;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 1.6rem;
+      /* Biraz daha büyütelim */
       opacity: 0.9;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 10;
+      line-height: 1;
     }
 
     .home-link:hover {
       opacity: 1;
+      transform: scale(1.1);
     }
 
     header {
