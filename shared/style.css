@@ -796,7 +796,7 @@
     /* ==================== LANDING PAGE ==================== */
 
     .landing-container {
-      max-width: 900px;
+      max-width: 950px;
       margin: 0 auto;
       padding: 40px 20px;
       min-height: 100vh;
@@ -815,27 +815,28 @@
     }
 
     .landing-header h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 12px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
 
     .landing-header p {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       opacity: 0.95;
     }
 
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
-      flex: 1;
+      flex: 0;
     }
 
     .landing-card {
       background: var(--card-bg);
       border-radius: 16px;
-      padding: 32px 24px;
+      padding: 40px 30px;
       text-decoration: none;
       color: var(--text);
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -843,8 +844,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
       border: 2px solid transparent;
+      min-height: 190px;
     }
 
     .landing-card:hover {
