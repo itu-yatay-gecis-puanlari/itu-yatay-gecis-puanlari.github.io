@@ -1,4 +1,5 @@
 let capData = null;
+let selectedYariyilFilter = 'all';
 
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', async () => {
@@ -18,6 +19,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+function filterByYariyil(selectElement) {
+  selectedYariyilFilter = selectElement.value;
+  renderPrograms();
+}
+
 // Programları render et
 function renderPrograms() {
   if (!capData) return;
@@ -25,7 +31,6 @@ function renderPrograms() {
   const container = document.getElementById('results-container');
   const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
   const yilSayisi = document.getElementById('yilSayisi').value;
-  const yariyilFilter = document.getElementById('yariyilFilter').value;
 
   // Gösterilecek dönemleri belirle
   let donemler = [...capData.meta.donemler];
@@ -66,7 +71,14 @@ function renderPrograms() {
               <tr>
                 <th>Bölüm</th>
                 <th>Dönem</th>
-                <th>Yarıyıl</th>
+                <th>
+                  Yarıyıl
+                  <select onchange="filterByYariyil(this)" style="margin-left: 5px; padding: 2px; font-size: 0.9em;">
+                    <option value="all" ${selectedYariyilFilter === 'all' ? 'selected' : ''}>Tümü</option>
+                    <option value="3.Yarıyıl" ${selectedYariyilFilter === '3.Yarıyıl' ? 'selected' : ''}>3. Yarıyıl</option>
+                    <option value="5.Yarıyıl" ${selectedYariyilFilter === '5.Yarıyıl' ? 'selected' : ''}>5. Yarıyıl</option>
+                  </select>
+                </th>
                 <th>Kontenjan</th>
                 <th>Yerleşen</th>
                 <th>Tavan</th>
@@ -77,23 +89,38 @@ function renderPrograms() {
     `;
 
     for (const program of programlar) {
-      const rows = collectProgramRows(program, donemler, yariyilFilter);
+      // Yıllara göre gruplanmış satırları topla
+      const groupedRows = collectGroupedRows(program, donemler);
 
-      if (rows.length === 0) continue;
+      if (Object.keys(groupedRows).length === 0) continue;
 
-      // İlk satır program adı ile
-      html += `
-        <tr class="program-header-row">
-          <td class="program-cell" rowspan="${rows.length}">
-            <div class="program-name">${program.ad}</div>
-          </td>
-          ${rows[0]}
-        </tr>
-      `;
+      let isFirstYear = true;
+      let totalProgramRows = 0;
+      Object.values(groupedRows).forEach(rows => totalProgramRows += rows.length);
 
-      // Diğer satırlar
-      for (let i = 1; i < rows.length; i++) {
-        html += `<tr>${rows[i]}</tr>`;
+      for (const [yilLabel, rows] of Object.entries(groupedRows)) {
+
+        rows.forEach((rowHtml, index) => {
+          html += '<tr>';
+
+          // Program hücresi sadece en başta (rowspan ile)
+          if (isFirstYear && index === 0) {
+            html += `
+              <td class="program-cell" rowspan="${totalProgramRows}">
+                <div class="program-name">${program.ad}</div>
+              </td>
+            `;
+            isFirstYear = false;
+          }
+
+          // Dönem hücresi her yılın başında (rowspan ile)
+          if (index === 0) {
+            html += `<td rowspan="${rows.length}">${yilLabel}</td>`;
+          }
+
+          html += rowHtml;
+          html += '</tr>';
+        });
       }
     }
 
@@ -112,53 +139,56 @@ function renderPrograms() {
   container.innerHTML = html;
 }
 
-// Program için satırları topla
-function collectProgramRows(program, donemler, yariyilFilter) {
-  const rows = [];
+// Yıllara göre gruplanmış satırları oluştur
+function collectGroupedRows(program, donemler) {
+  const grouped = {};
 
   for (const donem of donemler) {
     const donemData = program.istatistikler[donem];
     if (!donemData) continue;
 
-    const yariyillar = yariyilFilter === 'all'
+    // Filtreleme
+    const yariyillar = selectedYariyilFilter === 'all'
       ? ['3.Yarıyıl', '5.Yarıyıl']
-      : [yariyilFilter];
+      : [selectedYariyilFilter];
+
+    const yearRows = [];
 
     for (const yariyil of yariyillar) {
       const data = donemData[yariyil];
       if (!data) continue;
 
-      // Array ise (özel kontenjanlar) - her birini ayrı göster
       if (Array.isArray(data)) {
         for (const item of data) {
-          rows.push(createRowHtml(donem, yariyil, item));
+          yearRows.push(createRowHtml(yariyil, item));
         }
       } else {
-        rows.push(createRowHtml(donem, yariyil, data));
+        yearRows.push(createRowHtml(yariyil, data));
       }
+    }
+
+    if (yearRows.length > 0) {
+      grouped[donem] = yearRows;
     }
   }
 
-  return rows;
+  return grouped;
 }
 
-// Satır HTML'i oluştur
-function createRowHtml(donem, yariyil, data) {
+// Satır HTML'i (Sadece veri hücreleri)
+function createRowHtml(yariyil, data) {
   const kontenjan = data.kontenjan !== null ? data.kontenjan : '-';
   const yerlesen = data.yerlesen || 0;
   const tavan = formatGPA(data.tavan);
   const taban = formatGPA(data.taban);
 
-  // GNO rengini belirle
   const tavanClass = getGPAClass(data.tavan);
   const tabanClass = getGPAClass(data.taban);
 
-  // Açıklama varsa tooltip olarak göster
   const aciklamaAttr = data.aciklama ? `title="${data.aciklama}"` : '';
   const aciklamaIcon = data.aciklama ? ' <span class="aciklama-icon" ' + aciklamaAttr + '>*</span>' : '';
 
   return `
-    <td>${donem}</td>
     <td>${yariyil.replace('.Yarıyıl', '. Yarıyıl')}${aciklamaIcon}</td>
     <td>${kontenjan}</td>
     <td>${yerlesen}</td>
