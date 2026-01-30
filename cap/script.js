@@ -102,7 +102,6 @@ function renderPrograms() {
                 <th>Taban</th>
               </tr>
             </thead>
-            <tbody>
     `;
 
     for (const program of programlar) {
@@ -111,6 +110,15 @@ function renderPrograms() {
 
       if (Object.keys(groupedRows).length === 0) continue;
 
+      html += '<tbody>';
+
+      // Mobil görünüm için başlık satırı
+      html += `
+        <tr class="mobile-program-header">
+          <td colspan="5">${program.ad}</td>
+        </tr>
+      `;
+
       let isFirstYear = true;
       let totalProgramRows = 0;
       Object.values(groupedRows).forEach(rows => totalProgramRows += rows.length);
@@ -118,12 +126,10 @@ function renderPrograms() {
       for (const [yilLabel, rows] of Object.entries(groupedRows)) {
 
         rows.forEach((rowHtml, index) => {
-          // Mobil görünüm için data attribute'ları ekle
-          // Güvenlik için program adındaki tırnak işaretlerini kaçıralım
-          const safeProgramAd = program.ad.replace(/"/g, '&quot;');
-          html += `<tr data-program="${safeProgramAd}" data-yil="${yilLabel}">`;
+          // Mobil görünüm için data attribute'ları ekle - data-program artık gerekmiyor
+          html += `<tr data-yil="${yilLabel}">`;
 
-          // Program hücresi sadece en başta (rowspan ile)
+          // Program hücresi sadece en başta (rowspan ile) - Masaüstü görünüm için
           if (isFirstYear && index === 0) {
             html += `
               <td class="program-cell" rowspan="${totalProgramRows}">
@@ -142,10 +148,11 @@ function renderPrograms() {
           html += '</tr>';
         });
       }
+
+      html += '</tbody>';
     }
 
     html += `
-            </tbody>
           </table>
         </div>
       </div>
@@ -207,7 +214,7 @@ function createRowHtml(yariyil, data, yilLabel) {
 
   const aciklamaAttr = data.aciklama ? `title="${data.aciklama}"` : '';
   const aciklamaIcon = data.aciklama ? ' <span class="aciklama-icon" ' + aciklamaAttr + '>*</span>' : '';
-  
+
   // Yıl ve Yarıyıl birleşimi (Örn: 2024-2025 3. Yarıyıl)
   const fullYariyilText = `${yilLabel ? yilLabel + ' ' : ''}${yariyil.replace('.Yarıyıl', '. Yarıyıl')}`;
 
