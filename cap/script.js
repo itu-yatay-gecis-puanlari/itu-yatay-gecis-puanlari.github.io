@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Footer tarihini güncelle
     document.getElementById('footerDate').textContent = capData.meta.guncelleme_tarihi;
 
+    // Yıl sayısı seçeneklerini dinamik oluştur
+    populateYilSecenekleri();
+
     // Tabloyu render et
     renderPrograms();
   } catch (error) {
@@ -18,6 +21,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       '<p class="error">Veriler yüklenirken bir hata oluştu.</p>';
   }
 });
+
+function populateYilSecenekleri() {
+  const select = document.getElementById('yilSayisi');
+  const totalYears = capData.meta.donemler.length;
+
+  let html = '';
+  for (let i = 1; i <= totalYears; i++) {
+    const selected = i === 3 ? 'selected' : '';
+    html += `<option value="${i}" ${selected}>Son ${i} Yıl</option>`;
+  }
+  html += `<option value="all">Tüm Yıllar</option>`;
+
+  select.innerHTML = html;
+}
 
 function filterByYariyil(selectElement) {
   selectedYariyilFilter = selectElement.value;
