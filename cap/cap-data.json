@@ -7454,6 +7454,48 @@
             "tavan": 3.91,
             "taban": 3.75
           }
+        },
+        "2024-2025": {
+          "3.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 2,
+            "tavan": 3.88,
+            "taban": 3.84
+          },
+          "5.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 1,
+            "tavan": 3.93,
+            "taban": 3.93
+          }
+        },
+        "2023-2024": {
+          "3.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 2,
+            "tavan": 3.86,
+            "taban": 3.82
+          },
+          "5.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 1,
+            "tavan": 3.83,
+            "taban": 3.83
+          }
+        },
+        "2022-2023": {
+          "3.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 2,
+            "tavan": 3.96,
+            "taban": 3.95
+          },
+          "5.Yarıyıl": {
+            "kontenjan": null,
+            "yerlesen": 1,
+            "tavan": 3.92,
+            "taban": 3.92
+          }
         }
       }
     },
@@ -8345,53 +8387,6 @@
             "yerlesen": 0,
             "tavan": null,
             "taban": null
-          }
-        }
-      }
-    },
-    "Yapay Zeka ve Veri Mühendisliği (% 100 İngilizce)": {
-      "fakulte": "Bilgisayar ve Bilişim Fakültesi",
-      "istatistikler": {
-        "2024-2025": {
-          "3.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 2,
-            "tavan": 3.88,
-            "taban": 3.84
-          },
-          "5.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 1,
-            "tavan": 3.93,
-            "taban": 3.93
-          }
-        },
-        "2023-2024": {
-          "3.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 2,
-            "tavan": 3.86,
-            "taban": 3.82
-          },
-          "5.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 1,
-            "tavan": 3.83,
-            "taban": 3.83
-          }
-        },
-        "2022-2023": {
-          "3.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 2,
-            "tavan": 3.96,
-            "taban": 3.95
-          },
-          "5.Yarıyıl": {
-            "kontenjan": null,
-            "yerlesen": 1,
-            "tavan": 3.92,
-            "taban": 3.92
           }
         }
       }
