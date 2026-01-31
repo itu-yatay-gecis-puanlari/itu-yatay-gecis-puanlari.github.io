@@ -195,6 +195,92 @@ function renderPrograms() {
   }
 
   container.innerHTML = html;
+
+  // Tooltip event listeners (Mobil ve Desktop için tıklama/hover desteği)
+  document.querySelectorAll('.aciklama-icon').forEach(icon => {
+    icon.style.cursor = 'pointer';
+
+    const showTooltip = () => {
+      const title = icon.getAttribute('data-title');
+      if (!title) return;
+
+      const existing = document.querySelector('.custom-tooltip');
+      if (existing && existing.dataset.triggerId === icon.dataset.uniqueId) return;
+      if (existing) existing.remove();
+
+      if (!icon.dataset.uniqueId) icon.dataset.uniqueId = Math.random().toString(36).substr(2, 9);
+
+      const tooltip = document.createElement('div');
+      tooltip.className = 'custom-tooltip';
+      tooltip.textContent = title;
+      tooltip.dataset.triggerId = icon.dataset.uniqueId;
+      document.body.appendChild(tooltip);
+
+      const rect = icon.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      let left = rect.left;
+      if (left > window.innerWidth - 220) {
+        left = window.innerWidth - 230;
+      }
+      if (left < 10) left = 10;
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${rect.bottom + scrollTop + 5}px`;
+    };
+
+    const hideTooltip = () => {
+      const existing = document.querySelector('.custom-tooltip');
+      if (existing) existing.remove();
+    };
+
+    // Desktop Hover
+    icon.addEventListener('mouseenter', () => {
+      // Sadece fare ile üzerine gelince aç, eğer tıklanarak açılmamışsa
+      const existing = document.querySelector('.custom-tooltip');
+      if (!existing || existing.dataset.triggerId !== icon.dataset.uniqueId) {
+        showTooltip();
+      }
+    });
+
+    icon.addEventListener('mouseleave', () => {
+      // Eğer tıklanarak sabitlenmemişse kapat
+      const existing = document.querySelector('.custom-tooltip');
+      if (existing && existing.dataset.triggerId === icon.dataset.uniqueId && !existing.dataset.locked) {
+        hideTooltip();
+      }
+    });
+
+    // Click (Hem mobil hem desktop için sabitleme/açma/kapama)
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault(); // Bazı mobil tarayıcılarda çift tetiklemeyi önlemek için
+
+      const existing = document.querySelector('.custom-tooltip');
+
+      // Eğer zaten açıksa
+      if (existing && existing.dataset.triggerId === icon.dataset.uniqueId) {
+        // Eğer zaten kilitliyse (tıklanarak açılmışsa), kapat
+        if (existing.dataset.locked) {
+          hideTooltip();
+        } else {
+          // Hover ile açılmış ama şimdi tıklandı -> Kilitle
+          existing.dataset.locked = "true";
+        }
+      } else {
+        // Hiç açık değilse veya başka birininki açıksa -> Aç ve kilitle
+        showTooltip();
+        const newTooltip = document.querySelector('.custom-tooltip');
+        if (newTooltip) newTooltip.dataset.locked = "true";
+      }
+    });
+  });
+
+  // Sayfada boş bir yere tıklayınca tooltip'i kapat
+  document.addEventListener('click', () => {
+    const existingTooltip = document.querySelector('.custom-tooltip');
+    if (existingTooltip) existingTooltip.remove();
+  }, { once: false });
 }
 
 // Yıllara göre gruplanmış satırları oluştur
@@ -243,15 +329,15 @@ function createRowHtml(yariyil, data, yilLabel) {
   const tavanClass = getGPAClass(data.tavan);
   const tabanClass = getGPAClass(data.taban);
 
-  const aciklamaAttr = data.aciklama ? `title="${data.aciklama}"` : '';
-  const aciklamaIcon = data.aciklama ? ' <span class="aciklama-icon" ' + aciklamaAttr + '>*</span>' : '';
+  const aciklamaAttr = data.aciklama ? `data-title="${data.aciklama}"` : '';
+  const aciklamaIcon = data.aciklama ? ` <span class="aciklama-icon" ${aciklamaAttr}>*</span>` : '';
 
   // Yıl ve Yarıyıl birleşimi (Örn: 2024-2025 3. Yarıyıl)
   const fullYariyilText = `${yilLabel ? yilLabel + ' ' : ''}${yariyil.replace('.Yarıyıl', '. Yarıyıl')}`;
 
   return `
-    <td class="cell-yariyil" data-mobil-text="${fullYariyilText}">${yariyil.replace('.Yarıyıl', '. Yarıyıl')}${aciklamaIcon}</td>
-    <td class="cell-kontenjan">${kontenjan}</td>
+    <td class="cell-yariyil" data-mobil-text="${fullYariyilText}">${yariyil.replace('.Yarıyıl', '. Yarıyıl')}</td>
+    <td class="cell-kontenjan"><div class="stat-content">${kontenjan}${aciklamaIcon}</div></td>
     <td class="cell-yerlesen">${yerlesen}</td>
     <td class="cell-tavan ${tavanClass}">${tavan}</td>
     <td class="cell-taban ${tabanClass}">${taban}</td>

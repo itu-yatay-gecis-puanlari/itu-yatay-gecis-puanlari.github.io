@@ -1221,3 +1221,40 @@
         font-weight: 600;
       }
     }
+
+    /* Tooltip content wrapper */
+    .stat-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    /* Custom Tooltip Style */
+    .custom-tooltip {
+      position: absolute;
+      background-color: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      z-index: 10000;
+      max-width: 250px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.2s;
+      line-height: 1.4;
+      pointer-events: auto;
+      /* Kullanıcı tooltip'e de tıklayabilsin (kapatmak için vs) */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
