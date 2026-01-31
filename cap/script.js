@@ -74,7 +74,38 @@ function renderPrograms() {
   let html = '';
 
   // Fakülte sıralama
-  const fakulteListesi = Object.keys(fakulteler).sort();
+  const fakulteSirasi = [
+    "Bilgisayar ve Bilişim Fakültesi",
+    "Elektrik - Elektronik Fakültesi",
+    "Uçak ve Uzay Bilimleri Fakültesi",
+    "Makina Fakültesi",
+    "Fen - Edebiyat Fakültesi",
+    "İşletme Fakültesi",
+    "Kimya - Metalurji Fakültesi",
+    "İnşaat Fakültesi",
+    "Maden Fakültesi",
+    "Gemi İnşaatı ve Deniz Bilimleri Fakültesi",
+    "Mimarlık Fakültesi",
+    "Tekstil Teknolojileri ve Tasarımı Fakültesi",
+    "Türk Musikisi Devlet Konservatuarı",
+    "Türk Musikisi Devlet Konservatuvarı",
+    "İTÜ-KKTC"
+  ];
+
+  const fakulteListesi = Object.keys(fakulteler).sort((a, b) => {
+    let indexA = fakulteSirasi.indexOf(a);
+    let indexB = fakulteSirasi.indexOf(b);
+
+    // Listede olmayanları en sona at
+    if (indexA === -1) indexA = 999;
+    if (indexB === -1) indexB = 999;
+
+    if (indexA !== indexB) {
+      return indexA - indexB;
+    }
+    // Eşitlik durumunda (veya ikisi de listede yoksa) alfabetik sırala
+    return a.localeCompare(b, 'tr');
+  });
 
   for (const fakulte of fakulteListesi) {
     const programlar = fakulteler[fakulte].sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
