@@ -46,7 +46,7 @@ function renderPrograms() {
   if (!capData) return;
 
   const container = document.getElementById('results-container');
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+  const searchTerm = document.getElementById('searchInput').value.toLocaleLowerCase('tr').trim();
   const yilSayisi = document.getElementById('yilSayisi').value;
 
   // Gösterilecek dönemleri belirle
@@ -59,7 +59,7 @@ function renderPrograms() {
   const fakulteler = {};
   for (const [programAdi, programData] of Object.entries(capData.programlar)) {
     // Arama filtresi
-    if (searchTerm && !programAdi.toLowerCase().includes(searchTerm)) {
+    if (searchTerm && !programAdi.toLocaleLowerCase('tr').includes(searchTerm)) {
       continue;
     }
 

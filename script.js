@@ -75,7 +75,7 @@ function renderPrograms() {
   if (!appData || !currentYksPuan) return;
 
   const programlar = appData.programlar;
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const searchTerm = document.getElementById('searchInput').value.toLocaleLowerCase('tr');
 
   let html = `
         <table class="programs-table">
@@ -105,7 +105,7 @@ function renderPrograms() {
   const sortedPrograms = Object.entries(programlar)
     .filter(([programAdi, programData]) => {
       // Arama filtresi
-      return !searchTerm || programAdi.toLowerCase().includes(searchTerm);
+      return !searchTerm || programAdi.toLocaleLowerCase('tr').includes(searchTerm);
     })
     .sort(([, dataA], [, dataB]) => {
       const puanA = dataA.osym_taban_puanlari[2025] || 0;
